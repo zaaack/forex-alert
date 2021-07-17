@@ -1,0 +1,20 @@
+.formio-component-submit {
+  position: sticky;
+  bottom: 0px;
+  padding: 20px 0;
+  background: white;
+}
+
+fieldset {
+  border: 1px solid sandybrown;
+  padding: 5px;
+}
+legend {
+  width: auto;
+}
+
+.buyAndSell {
+  label,thead, td:last-child, tfoot, .formio-button-remove-row {
+    display: none;
+  }
+}
