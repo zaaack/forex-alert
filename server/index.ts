@@ -1,17 +1,19 @@
 import * as trpc from '@trpc/server'
 // import * as trpcNext from '@trpc/server/adapters/next';
 import superjson from 'superjson'
-import { configRouter, createRouter, createContext } from './config-router'
+import { createContext, createRouter } from './trpc'
+import {authRouter} from './auth-router'
 import express from 'express'
 import path from 'path'
 import { logger } from 'foy'
 
-const router = createRouter().merge('config.', configRouter)
+
+// push.send('测是')
+
+const router = createRouter().merge('auth.', authRouter)
 
 export const appRouter = router
 export type AppRouter = typeof router
-
-// push.send('测是')
 
 const app = express()
 
