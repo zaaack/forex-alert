@@ -17,13 +17,16 @@
   },
   "dependencies": {
     "@prisma/client": "^2.18.0",
+    "@supabase/supabase-js": "^1.20.0",
     "@trpc/server": "^6.3.1",
     "axios": "^0.21.1",
     "dayjs": "^1.10.6",
     "express": "^4.17.1",
     "foy": "^0.2.8",
+    "nanoid": "^3.1.23",
     "node-schedule": "^2.0.0",
     "superjson": "^1.7.4",
+    "svg-captcha": "^1.4.0",
     "yup": "^0.32.9",
     "zod": "^3.1.0"
   },

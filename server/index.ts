@@ -2,9 +2,10 @@ import * as trpc from '@trpc/server'
 // import * as trpcNext from '@trpc/server/adapters/next';
 import superjson from 'superjson'
 import { createContext, createRouter } from './trpc'
-import {authRouter} from './auth-router'
+import {authRouter} from './routers/auth-router'
 import express from 'express'
 import path from 'path'
+import {captcha} from './services/captcha';
 import { logger } from 'foy'
 
 
@@ -19,16 +20,20 @@ const app = express()
 
 app.use(
   '/api/trpc',
-  trpc.createHttpHandler({
-    router: appRouter,
-    createContext,
-    teardown: async () => {},
-    transformer: superjson,
-    onError({ error }) {
-      logger.error(error)
-    },
-  })
+  (req, res, next) => {
+    return trpc.createHttpHandler({
+      router: appRouter,
+      createContext: createContext as any,
+      teardown: async () => {},
+      transformer: superjson,
+      onError({ error }) {
+        logger.error(error)
+      },
+    })(req, res as any)
+  }
 )
+
+app.use('/api/captcha', captcha.handler)
 
 app.use(express.static(path.join(__dirname, '../static'), {
   maxAge: '365d',

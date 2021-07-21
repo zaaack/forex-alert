@@ -2,24 +2,42 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
+  // url      = "file:./database/dev.sqlite"
 }
 
 generator client {
   provider = "prisma-client-js"
 }
-
+enum Plan {
+  FREE
+  PREMIUM
+  PRO
+}
 model User {
   id String @id @default(uuid())
   mail String
   pwd String
   nickname String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  plan Plan @default(FREE)
+  planExpiresAt DateTime @default(now())
+  token String @default(uuid())
+  tokenExpiresAt DateTime @default(now())
 
   @@index([mail])
+  @@unique([mail])
 }
 
 model Alarm {
   id String @id @default(uuid())
-  type String // cross | break | pinbar
+  userId String
+  name String
+  confs Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@index([userId])
 }

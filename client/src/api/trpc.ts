@@ -5,7 +5,7 @@ import { QueryClient } from 'react-query';
 import superjson from 'superjson';
 // ℹ️ Type-only import:
 // https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-and-export
-import type { AppRouter } from '../../../server-source/';
+import type { AppRouter } from '../../../server/';
 
 // create helper methods for queries, mutations, and subscriptionos
 export const queryClient = new QueryClient({
