@@ -1,8 +1,7 @@
 import * as trpc from '@trpc/server'
 import { Config, Mt4 } from './mt4-server'
 import { Symbols } from './consts'
-import * as z from 'zod'
-import { ZodEnum, ZodString } from 'zod'
+import * as yup from 'yup'
 import { logger } from 'foy'
 import {createRouter} from './trpc'
 // import y from 'yup'
@@ -14,8 +13,7 @@ import {createRouter} from './trpc'
 //   symbol: y.string().oneOf(Symbols)
 // })
 
-const DirectionSchema = z.enum(['Both', 'OnlyLong', 'OnlyShort'])
-export const configSchema = z
+export const configSchema = yup
   .object({
     // // double break start
     // Break1Buy: z.number(),
