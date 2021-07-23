@@ -1,10 +1,10 @@
 import React from 'react'
-import { Button, Checkbox, Input, Spacer } from '@geist-ui/react'
+import { Button, Checkbox, Image, Input, Spacer } from '@geist-ui/react'
 import { trpc } from '../../api/trpc'
 
-function Login(props) {
-  const login = trpc.useMutation('auth.login')
-  const [user, setUser] = React.useState({ mail: '', pwd: '', remember: false })
+function Register(props) {
+  const login = trpc.useMutation('auth.register')
+  const [user, setUser] = React.useState({ mail: '', pwd: '', code: '' })
   return (
     <div>
       <>
@@ -27,14 +27,17 @@ function Login(props) {
           }}
         />
         <Spacer y={0.5} />
-        <Checkbox
-          checked={!!user.remember}
+        <Image src={`/api/captcha`} />
+        <Spacer y={0.5} />
+        <Input
+          label="captcha"
+          placeholder="Captcha code"
+          type="text"
+          value={user.code}
           onChange={(e) => {
-            setUser((u) => ({ ...u, remember: e.target.checked }))
+            setUser((u) => ({ ...u, code: e.target.value }))
           }}
-        >
-          Remember me
-        </Checkbox>
+        />
         <Spacer y={0.5} />
         <Button
           loading={login.isLoading}
@@ -43,11 +46,11 @@ function Login(props) {
             login.mutate(user)
           }}
         >
-          Login
+          Register
         </Button>
       </>
     </div>
   )
 }
 
-export default Login
+export default Register

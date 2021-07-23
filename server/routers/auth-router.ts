@@ -7,22 +7,19 @@ import { captcha } from '../services/captcha'
 import { encoder } from '../services/encoder'
 import { nanoid } from 'nanoid'
 import dayjs from 'dayjs'
-// import y from 'yup'
 
-// create context based of incoming request
-// set as optional here so it can also be re-used for `getStaticProps()`
 
-// const YupSymbol = y.object({
-//   symbol: y.string().oneOf(Symbols)
-// })
-
-export const registerSchema = yup.object({
+const MaxWrongPwdAttempts = 3
+const baseAuthSchema = yup.object({
   mail: yup.string().email().required(),
   pwd: yup.string().min(6).max(50).required(),
-  code: yup.string().required(),
-  remember: yup.boolean().default(false),
 })
-export const loginSchema = registerSchema
+export const registerSchema = baseAuthSchema.concat(yup.object({
+  code: yup.string().required(),
+}))
+export const loginSchema = baseAuthSchema.concat(yup.object({
+  remember: yup.boolean().default(false),
+}))
 export const authRouter = createRouter()
   .query('me', {
     async resolve({ ctx, input }) {
@@ -41,12 +38,12 @@ export const authRouter = createRouter()
           nickname: `${input.mail.split('@')[0]}`,
           pwd: encoder.encode(input.pwd),
           tokenExpiresAt: dayjs()
-            .add(input.remember ? 365 : 7, 'd')
+            .add( 7, 'd')
             .toDate(),
           plan: 'FREE',
         },
       })
-      ctx.setToken(u, input.remember)
+      ctx.setToken(u, false)
       return {...u, token: null}
     },
   })
@@ -65,9 +62,6 @@ export const authRouter = createRouter()
   .mutation('login', {
     input: loginSchema,
     async resolve({ ctx, input }) {
-      if (!captcha.check(ctx.req, input.code)) {
-        throw trpc.httpError.badRequest(`Invalid captcha`)
-      }
       let u = await ctx.user.findFirst({
         where: {
           mail: input.mail,
@@ -76,22 +70,32 @@ export const authRouter = createRouter()
       if (!u) {
         throw trpc.httpError.badRequest(`mail is not registered`)
       }
-      if (u.pwd !== encoder.encode(input.pwd)) {
-        throw trpc.httpError.badRequest(`wrong password`)
+      if (u.wrongPwdAttempts >= MaxWrongPwdAttempts && dayjs().isBefore(u.lockLoginExpiration)) {
+        throw trpc.httpError.badRequest(`too many wrong passwords, please retry after ${-dayjs().diff(u.lockLoginExpiration, 'h')} hours`)
       }
-      if (dayjs().isAfter(u.tokenExpiresAt)) {
-        u = await ctx.user.update({
+      if (u.pwd !== encoder.encode(input.pwd)) {
+        await ctx.user.update({
           data: {
-            token: nanoid(),
-            tokenExpiresAt: dayjs()
-              .add(input.remember ? 365 : 7, 'd')
-              .toDate(),
+            wrongPwdAttempts: u.wrongPwdAttempts + 1,
+            lockLoginExpiration: dayjs().add(3, 'h').toDate(),
           },
           where: {
             id: u.id,
           },
         })
+        throw trpc.httpError.badRequest(`wrong password, ${MaxWrongPwdAttempts - u.wrongPwdAttempts}`)
       }
+      u = await ctx.user.update({
+        data: {
+          token: nanoid(),
+          tokenExpiresAt: dayjs()
+            .add(input.remember ? 365 : 7, 'd')
+            .toDate(),
+        },
+        where: {
+          id: u.id,
+        },
+      })
       ctx.setToken(u, input.remember)
       return {...u, token: null}
     },

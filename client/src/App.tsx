@@ -1,14 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { queryClient, trpc } from './api/trpc'
 import './App.scss'
-// import { Form } from '@formio/react';
-import * as Formio from 'formiojs'
-import { formDefs } from './form-defs'
-// declare var Formio: { Form: typeof Form }
+import { Switch, Route, HashRouter as Router, useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
+import Register from './pages/auth/register'
+import Login from './pages/auth/login'
 function App() {
   return (
-    <div>
-    </div>
+      <Switch>
+        <Route path="/auth/register">
+          <Register />
+        </Route>
+        <Route path="/auth/login">
+          <Login />
+        </Route>
+      </Switch>
   )
 }
 

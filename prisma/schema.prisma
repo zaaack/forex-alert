@@ -22,10 +22,14 @@ model User {
   nickname String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+
   plan Plan @default(FREE)
   planExpiresAt DateTime @default(now())
+
   token String @default(uuid())
   tokenExpiresAt DateTime @default(now())
+  wrongPwdAttempts Int @default(0) // 密码错误次数
+  lockLoginExpiration DateTime @default(now()) // 登录解锁时间
 
   @@index([mail])
   @@unique([mail])
