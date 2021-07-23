@@ -6,7 +6,7 @@ import externalGlobals from 'rollup-plugin-external-globals'
 export default defineConfig({
   plugins: [reactRefresh()],
   build: {
-    outDir: '../static/',
+    outDir: '../dist/static/',
     minify: 'esbuild',
     rollupOptions: {
       plugins: [

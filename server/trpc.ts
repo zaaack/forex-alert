@@ -19,12 +19,14 @@ export const createContext = async ({req, res}: CreateContextFnOptions<Request, 
       let me = await prisma.user.findFirst({where: {id:uid}})
       if (me?.token !== utk || dayjs().isAfter(me?.tokenExpiresAt)) {
         me = null
+        res.clearCookie('uid')
+        res.clearCookie('utk')
       }
       return {...me, token: null}
     },
     setToken(u: User, remember?: boolean) {
       res.cookie('uid', u.id)
-      res.cookie('utk', u.token, { httpOnly: true, maxAge: remember?1000 * 60 * 60 * 24 * 365: void 0 })
+      res.cookie('utk', u.token, { httpOnly: true, maxAge: remember?1000 * 60 * 60 * 24 * 365: 0 })
     }
   }
 }

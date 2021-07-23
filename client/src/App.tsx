@@ -1,3 +1,5 @@
+// https://couds.github.io/react-bulma-components/?path=/story/components-navbar--default
+
 import React, { useEffect, useRef, useState } from 'react'
 import { queryClient, trpc } from './api/trpc'
 import './App.scss'

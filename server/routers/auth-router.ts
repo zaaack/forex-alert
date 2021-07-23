@@ -7,6 +7,7 @@ import { captcha } from '../services/captcha'
 import { encoder } from '../services/encoder'
 import { nanoid } from 'nanoid'
 import dayjs from 'dayjs'
+import { keyBy } from 'smoldash'
 
 
 const MaxWrongPwdAttempts = 3
@@ -30,11 +31,14 @@ export const authRouter = createRouter()
     input: registerSchema,
     async resolve({ ctx, input }) {
       if (!captcha.check(ctx.req, input.code)) {
-        throw trpc.httpError.badRequest(`Invalid captcha`)
+        throw new trpc.HTTPError(`Invalid captcha`, {
+          code: 'INVALID_CAPTCHA',
+          statusCode: 400,
+        })
       }
       let u = await ctx.user.create({
         data: {
-          ...input,
+          mail: input.mail,
           nickname: `${input.mail.split('@')[0]}`,
           pwd: encoder.encode(input.pwd),
           tokenExpiresAt: dayjs()
@@ -42,6 +46,11 @@ export const authRouter = createRouter()
             .toDate(),
           plan: 'FREE',
         },
+      }).catch(err => {
+        if (err.message.includes('mail') &&err.message.includes('Unique')) {
+          throw trpc.httpError.badRequest('mail alread exists')
+        }
+        throw err
       })
       ctx.setToken(u, false)
       return {...u, token: null}

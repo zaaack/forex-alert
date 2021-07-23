@@ -7,6 +7,7 @@ import express from 'express'
 import path from 'path'
 import {captcha} from './services/captcha';
 import { logger } from 'foy'
+import cookieParser from 'cookie-parser'
 
 
 // push.send('测是')
@@ -18,28 +19,29 @@ export type AppRouter = typeof router
 
 const app = express()
 
+app.use(cookieParser())
+
+const trpcHandler = trpc.createHttpHandler({
+  router: appRouter,
+  createContext: createContext as any,
+  teardown: async () => {},
+  transformer: superjson,
+  onError({ error }) {
+    logger.error(error)
+  },
+})
 app.use(
   '/api/trpc',
-  (req, res, next) => {
-    return trpc.createHttpHandler({
-      router: appRouter,
-      createContext: createContext as any,
-      teardown: async () => {},
-      transformer: superjson,
-      onError({ error }) {
-        logger.error(error)
-      },
-    })(req, res as any)
-  }
+  trpcHandler
 )
 
 app.use('/api/captcha', captcha.handler)
 
-app.use(express.static(path.join(__dirname, '../static'), {
+app.use(express.static(path.join(__dirname, './static'), {
   maxAge: '365d',
 }))
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../static', 'index.html'))
+  res.sendFile(path.join(__dirname, './static', 'index.html'))
 })
 const port = process.env.PORT || 4000
 
