@@ -45,3 +45,10 @@ model Alarm {
 
   @@index([userId])
 }
+
+model Messages {
+  id String @id @default(uuid())
+  alarmId String
+  symbol String
+  message String
+}

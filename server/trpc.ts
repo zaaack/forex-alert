@@ -4,6 +4,7 @@ import { PrismaClient, User } from '@prisma/client'
 import { CreateContextFnOptions } from '@trpc/server'
 import {Request, Response} from 'express'
 import dayjs from 'dayjs';
+import { logger } from 'foy';
 export const prisma = new PrismaClient()
 
 
@@ -22,10 +23,10 @@ export const createContext = async ({req, res}: CreateContextFnOptions<Request, 
         res.clearCookie('uid')
         res.clearCookie('utk')
       }
-      return {...me, token: null}
+      return me
     },
     setToken(u: User, remember?: boolean) {
-      res.cookie('uid', u.id)
+      res.cookie('uid', u.id, { httpOnly: true, maxAge: remember?1000 * 60 * 60 * 24 * 365: 0 })
       res.cookie('utk', u.token, { httpOnly: true, maxAge: remember?1000 * 60 * 60 * 24 * 365: 0 })
     }
   }

@@ -7,6 +7,8 @@ import { Switch, Route, HashRouter as Router, useLocation } from 'react-router-d
 import { useHistory } from 'react-router-dom'
 import Register from './pages/auth/register'
 import Login from './pages/auth/login'
+import Home from './pages/home'
+
 function App() {
   return (
       <Switch>
@@ -15,6 +17,9 @@ function App() {
         </Route>
         <Route path="/auth/login">
           <Login />
+        </Route>
+        <Route path="/">
+          <Home />
         </Route>
       </Switch>
   )

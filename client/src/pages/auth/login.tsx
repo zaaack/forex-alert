@@ -1,13 +1,13 @@
 import React from 'react'
 import { Button, Checkbox, Input, Spacer, useToasts } from '@geist-ui/react'
-import { trpc } from '../../api/trpc'
+import { trpc, } from '../../api/trpc'
 import { useHistory } from 'react-router'
 import Page from '../../comps/Page'
 import { AuthFormWidth } from './utils'
 function Login(props) {
   const [toasts, setToast] = useToasts()
   const history = useHistory()
-
+  const trpcCtx = trpc.useContext()
   const login = trpc.useMutation('auth.login', {
     onError: (err) => {
       console.error(err)
@@ -15,6 +15,7 @@ function Login(props) {
     },
     onSuccess: () => {
       setToast({ text: 'Login successfully!', type: 'success' })
+      trpcCtx.invalidateQuery(['auth.me'])
       history.push('/')
     },
   })
@@ -23,8 +24,9 @@ function Login(props) {
     <Page>
       <form
         style={{margin: `100px auto`, width: AuthFormWidth}}
-        onSubmit={() => {
+        onSubmit={e => {
           login.mutate(user)
+          e.preventDefault()
         }}
       >
         <Input

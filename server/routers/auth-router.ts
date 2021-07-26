@@ -8,6 +8,7 @@ import { encoder } from '../services/encoder'
 import { nanoid } from 'nanoid'
 import dayjs from 'dayjs'
 import { keyBy } from 'smoldash'
+import { User } from '.prisma/client'
 
 
 const MaxWrongPwdAttempts = 3
@@ -17,14 +18,27 @@ const baseAuthSchema = yup.object({
 })
 export const registerSchema = baseAuthSchema.concat(yup.object({
   code: yup.string().required(),
+  nickname: yup.string(),
 }))
 export const loginSchema = baseAuthSchema.concat(yup.object({
   remember: yup.boolean().default(false),
 }))
+
+export function userToMe(u: User | null) {
+  if (!u) return null
+  return {
+    id: u.id,
+    mail: u.mail,
+    nickname: u.nickname,
+    plan: u.plan,
+    planExpiresAt: u.planExpiresAt,
+  }
+}
+
 export const authRouter = createRouter()
   .query('me', {
     async resolve({ ctx, input }) {
-      return ctx.getMe()
+      return userToMe(await ctx.getMe())
     },
   })
   .mutation('register', {
@@ -39,8 +53,9 @@ export const authRouter = createRouter()
       let u = await ctx.user.create({
         data: {
           mail: input.mail,
-          nickname: `${input.mail.split('@')[0]}`,
+          nickname: input.nickname || `${input.mail.split('@')[0]}`,
           pwd: encoder.encode(input.pwd),
+          token: nanoid(),
           tokenExpiresAt: dayjs()
             .add( 7, 'd')
             .toDate(),
@@ -53,7 +68,7 @@ export const authRouter = createRouter()
         throw err
       })
       ctx.setToken(u, false)
-      return {...u, token: null}
+      return userToMe(u)!
     },
   })
   .mutation('verifyMail',{
@@ -106,6 +121,26 @@ export const authRouter = createRouter()
         },
       })
       ctx.setToken(u, input.remember)
-      return {...u, token: null}
+      return userToMe(u)!
     },
+  })
+  .mutation('logout', {
+    async resolve({ ctx }) {
+      const me = await ctx.getMe()
+
+      if (me) {
+        await ctx.user.update({
+          data: {
+            token: '',
+            tokenExpiresAt: new Date,
+          },
+          where: {
+            id: me.id,
+          },
+        })
+      }
+      ctx.res.clearCookie('uid')
+      ctx.res.clearCookie('utk')
+      return {}
+    }
   })
