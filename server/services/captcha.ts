@@ -21,7 +21,7 @@ class CaptchaService {
     // res.cookie('cp', this.encoder.encode(captcha.text))
     const id = uniqueId()
     res.cookie('cp', id)
-    this.map.set(id, captcha.text, { maxAge: 5 * 60 * 60 * 1000 })
+    this.map.set(id, captcha.text, { maxAge: 1 * 60 * 60 * 1000 })
     res.type('svg')
     res.status(200).send(captcha.data)
   }
