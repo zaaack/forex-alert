@@ -197,10 +197,10 @@
   dependencies:
     "@types/node" "*"
 
-"@vercel/ncc@^0.28.6":
-  version "0.28.6"
-  resolved "https://registry.nlark.com/@vercel/ncc/download/@vercel/ncc-0.28.6.tgz#073c0ce8e0269210c0a9f180fb0bf949eecc20e0"
-  integrity sha1-BzwM6OAmkhDAqfGA+wv5Se7MIOA=
+"@vercel/ncc@0.28.5":
+  version "0.28.5"
+  resolved "https://registry.nlark.com/@vercel/ncc/download/@vercel/ncc-0.28.5.tgz#6d735379f81b70b708a9c3d2196507b2a841824f"
+  integrity sha1-bXNTefgbcLcIqcPSGWUHsqhBgk8=
 
 abbrev@1:
   version "1.1.1"

@@ -1,8 +1,9 @@
+import { ChildProcess } from 'child_process'
 import { task, desc, option, fs, setGlobalOptions, execa, sleep } from 'foy'
+import { join } from 'path/posix'
+const ncc = require('ncc')
 setGlobalOptions({ loading: false })
 task('dev', async (ctx) => {
-  let p: execa.ExecaChildProcess<string> | void
-  // Your build tasks
   // load .env
   fs
     .readFileSync('./.env', 'utf-8')
@@ -11,20 +12,25 @@ task('dev', async (ctx) => {
     .filter((s) => /^\w+/.test(s))
     .map((s) => s.split('=').map((s) => s.trim()))
     .map(([k, v]) => ctx.env(k, v.replace(/(^["'])|(["']$)/g, '')))
-  ctx.run('build:server').then(() => {
-    fs.watchDir('./server', { throttle: 1000 }, async () => {
-      while (p && !p.killed) {
-        p.kill()
-        await sleep(500)
-      }
-      await ctx.run(`build:server`)
-      p = ctx.exec(`node ./dist`)
-      // p = ctx.exec(`ts-node ./server`)
-    })
-    p = ctx.popd().exec(`node ./dist`)
-    // p = ctx.popd().exec(`ts-node ./server`)
-  })
-  // start client dev server
+  //
+
+
+  let p: ChildProcess | null = null
+  // FIXME: @vercel/ncc@0.28.5 https://github.com/vercel/ncc/issues/716
+ncc(join(process.cwd(), './server/index.ts'), {
+  watch: true, // default
+  // v8cache: true, // default
+}).handler (async ({ err, code, map, assets }) => {
+  if (!err) {
+    while (p && !p.killed && p.exitCode === null) {
+      p.kill()
+      await sleep(1000)
+    }
+    p = ctx.cd(process.cwd()).exec(`node ./dist`)
+  } else {
+    ctx.error(err)
+  }
+})
   ctx.pushd('./client').exec('yarn start')
 })
 task('build:server', async (ctx) => {
