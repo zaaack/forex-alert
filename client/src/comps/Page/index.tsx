@@ -11,6 +11,7 @@ function Page(props) {
   const fetchMe = trpc.useQuery(['auth.me'], { staleTime: Infinity })
   const logout = trpc.useMutation('auth.logout')
   const me = fetchMe.data
+  const pageWidth = Math.min(parseInt(theme.layout.pageWidth, 10), window.innerWidth - parseInt(theme.layout.gap, 10) * 2)
   return (
     <div className={css.page}>
       <nav
@@ -23,7 +24,7 @@ function Page(props) {
           className={css.inner}
           style={{
             padding: `0 ${theme.layout.gap}`,
-            width: theme.layout.pageWidth,
+            width: pageWidth,
             margin: '0 auto',
           }}
         >
@@ -82,9 +83,10 @@ function Page(props) {
       <main
         style={{
           padding: `20px ${theme.layout.gap}`,
-          maxWidth: theme.layout.pageWidth,
+          maxWidth: pageWidth,
           margin: '0 auto',
         }}
+        className={css.main}
       >
         {props.children}
       </main>

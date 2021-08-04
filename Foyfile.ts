@@ -1,7 +1,7 @@
 import { ChildProcess } from 'child_process'
 import { task, desc, option, fs, setGlobalOptions, execa, sleep } from 'foy'
-import { join } from 'path/posix'
-const ncc = require('ncc')
+import { join } from 'path'
+const ncc = require('@vercel/ncc')
 setGlobalOptions({ loading: false })
 task('dev', async (ctx) => {
   // load .env

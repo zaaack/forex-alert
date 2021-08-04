@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import Page from '../../comps/Page';
+import React, { useState } from 'react'
+import Page from '../../comps/Page'
+import AlarmBuilder from './alarm-builder'
 
 function Home(props) {
-  const alarms = useState([]);
+  const alarms = useState([])
   return (
     <Page>
-      <h1>Home</h1>
+      <AlarmBuilder onCreate={(alarm) => {}} />
     </Page>
-  );
+  )
 }
 
-export default Home;
+export default Home

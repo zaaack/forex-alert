@@ -1,5 +1,4 @@
 import { ExtendedComponentSchema } from 'formiojs'
-import { Symbols } from '../../server-source/consts'
 
 // 方向: 'Both' | 'OnlyLong' | 'OnlyShort'
 // remainCrossTimes: number

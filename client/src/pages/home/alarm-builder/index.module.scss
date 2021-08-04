@@ -1,0 +1,21 @@
+:global {
+  [data-deletable] button {
+    display: none;
+  }
+
+  .formio-form * {
+    box-sizing: border-box;
+  }
+}
+
+.main {
+  :global(.formio-form) {
+    display: flex;
+    .alarmJoin {
+      margin-right: 10px;
+    }
+    .alarmConfig {
+      flex:  1;
+    }
+  }
+}

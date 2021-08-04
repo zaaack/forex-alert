@@ -1,47 +1,118 @@
-
-import * as talib from 'talib-binding'
+import { ExtendedComponentSchema } from 'formiojs'
+// import * as talib from 'talib-binding'
 import yup from 'yup'
 import { Candle } from './candles'
-
-export interface Indicator {
+export type Indicator = {
+  name: 'Close' | 'High' | 'Low' | 'Open'
+} | {
+  name: 'MA',
+  period: number
+  type: 'SMA' | 'EMA'
+  source: 'close' | 'high' | 'low' | 'open'
+}
+export interface IndicatorForm {
   name: string
-  params: {
-    name: string
-    default: any
-    schema: yup.BaseSchema
-  }[]
-  calc(candles: Candle[], params: object, index: number): number
+  fields?: ExtendedComponentSchema[]
+  // calc(candles: Candle[], params: object, index: number): number
 }
 
-export const Indicators: Indicator[] = [
-  { name: 'Open', params: [], calc: (c, p, i) => c[i].open },
-  { name: 'Close', params: [], calc: (c, p, i) => c[i].close },
-  { name: 'High', params: [], calc: (c, p, i) => c[i].high },
-  { name: 'Low', params: [], calc: (c, p, i) => c[i].low },
+export const Indicators: IndicatorForm[] = [
+  { name: 'Open',
+  // calc: (c, p, i) => c[i].open
+ },
+  { name: 'Close',
+  // calc: (c, p, i) => c[i].close
+},
+  { name: 'High',
+  // calc: (c, p, i) => c[i].high
+},
+  { name: 'Low',
+  // calc: (c, p, i) => c[i].low
+},
   {
     name: 'MA',
-    params: [
+    fields: [
       {
-        name: 'period',
-        default: 9,
-        schema: yup.number().min(1).max(300).integer(),
+        label: 'period',
+        key: 'period',
+        type: 'number',
+        labelPosition: 'left',
+        labelMargin: 1,
+        input: true,
+        defaultValue: 9,
+        validate: {
+          min: 1,
+          max: 500,
+          integer: true,
+        } as any,
       },
       {
-        name: 'source',
-        default: 'close',
-        schema: yup.string().oneOf(['close', 'high', 'low', 'open']),
+        label: 'source',
+        key: 'source',
+        type: 'select',
+        labelPosition: 'left',
+        labelMargin: 1,
+        input: true,
+        dataSrc: 'values',
+        defaultValue: 'close',
+        data: {
+          values: ['close', 'high', 'low', 'open'],
+        },
       },
       {
-        name: 'type',
-        default: 'SMA',
-        schema: yup.string().oneOf(['SMA', 'EMA']),
+        label: 'type',
+        key: 'type',
+        type: 'select',
+        labelPosition: 'left',
+        labelMargin: 1,
+        input: true,
+        dataSrc: 'values',
+        defaultValue: 'EMA',
+        data: {
+          values: ['SMA', 'EMA'],
+        },
       },
     ],
-    calc: (c, p: { period: number; source: 'close' | 'open' | 'high' | 'low', type: 'EMA' | 'SMA' }, i) =>
-      talib.MA(
-        c.map((c) => c[p.source]),
-        p.period,
-        p.type === 'SMA' ? talib.MATypes.SMA : talib.MATypes.EMA,
-      )[i],
+    // params: [
+    //   {
+    //     name: 'period',
+    //     default: 9,
+    //     schema: yup.number().min(1).max(300).integer(),
+    //   },
+    //   {
+    //     name: 'source',
+    //     default: 'close',
+    //     schema: yup.string().oneOf(['close', 'high', 'low', 'open']),
+    //   },
+    //   {
+    //     name: 'type',
+    //     default: 'SMA',
+    //     schema: yup.string().oneOf(['SMA', 'EMA']),
+    //   },
+    // ],
+    // calc: (
+    //   c,
+    //   p: { period: number; source: 'close' | 'open' | 'high' | 'low'; type: 'EMA' | 'SMA' },
+    //   i,
+    // ) =>
+    //   talib.MA(
+    //     c.map((c) => c[p.source]),
+    //     p.period,
+    //     p.type === 'SMA' ? talib.MATypes.SMA : talib.MATypes.EMA,
+    //   )[i],
+  },
+  {
+    name: 'Constant',
+    fields: [
+      {
+        label: 'value',
+        key: 'value',
+        type: 'number',
+        labelPosition: 'left',
+        labelMargin: 1,
+        input: true,
+        defaultValue: 1,
+      },
+    ]
   },
 ]

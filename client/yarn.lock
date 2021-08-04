@@ -471,10 +471,10 @@
   dependencies:
     "@formily/shared" "^1.3.17"
 
-"@formio/bootstrap3@^2.11.0":
-  version "2.11.0"
-  resolved "https://registry.nlark.com/@formio/bootstrap3/download/@formio/bootstrap3-2.11.0.tgz#51adab6dc903b1b6f3ef59fce3cbd864d5ea6a5e"
-  integrity sha1-Ua2rbckDsbbz71n848vYZNXqal4=
+"@formio/bootstrap3@^2.11.3":
+  version "2.11.3"
+  resolved "https://registry.nlark.com/@formio/bootstrap3/download/@formio/bootstrap3-2.11.3.tgz#8530c70d5d259ec5796768457518fced01732600"
+  integrity sha1-hTDHDV0lnsV5Z2hFdRj87QFzJgA=
   dependencies:
     resize-observer-polyfill "^1.5.1"
 
@@ -487,21 +487,21 @@
     fuse.js "^3.4.5"
     redux "^4.0.4"
 
-"@formio/react@^5.0.0-rc.3":
-  version "5.0.0-rc.3"
-  resolved "https://registry.nlark.com/@formio/react/download/@formio/react-5.0.0-rc.3.tgz#4bb67d571301b85f8afd2cf69e95f98abe41e2aa"
-  integrity sha1-S7Z9VxMBuF+K/Sz2npX5ir5B4qo=
+"@formio/react@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.nlark.com/@formio/react/download/@formio/react-5.1.1.tgz#3534fd203aaf0fee41ef027e0b5e8418441a611d"
+  integrity sha1-NTT9IDqvD+5B7wJ+C16EGEQaYR0=
   dependencies:
     babel-polyfill "^6.26.0"
-    core-js "^3.9.1"
+    core-js "^3.15.1"
     eventemitter2 "^6.4.4"
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
-"@formio/semantic@^2.5.1":
-  version "2.5.1"
-  resolved "https://registry.nlark.com/@formio/semantic/download/@formio/semantic-2.5.1.tgz#cff24ba67320c0e11b3a0f0921802867e8dea79d"
-  integrity sha1-z/JLpnMgwOEbOg8JIYAoZ+jep50=
+"@formio/semantic@^2.5.3":
+  version "2.5.3"
+  resolved "https://registry.nlark.com/@formio/semantic/download/@formio/semantic-2.5.3.tgz#06ee013b3ec72da04723fb72c6becd22a2fdf7af"
+  integrity sha1-Bu4BOz7HLaBHI/tyxr7NIqL9968=
 
 "@formio/vanilla-text-mask@^5.1.1":
   version "5.1.1"
@@ -1070,10 +1070,10 @@ core-js@^2.4.0, core-js@^2.5.0:
   resolved "https://registry.nlark.com/core-js/download/core-js-2.6.12.tgz?cache=0&sync_timestamp=1621970016244&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcore-js%2Fdownload%2Fcore-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
   integrity sha1-2TM9+nsGXjR8xWgiGdb2kIWcwuw=
 
-core-js@^3.11.1, core-js@^3.9.1:
-  version "3.13.0"
-  resolved "https://registry.nlark.com/core-js/download/core-js-3.13.0.tgz?cache=0&sync_timestamp=1621970016244&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcore-js%2Fdownload%2Fcore-js-3.13.0.tgz#58ca436bf01d6903aee3d364089868d0d89fe58d"
-  integrity sha1-WMpDa/AdaQOu49NkCJho0Nif5Y0=
+core-js@^3.15.1, core-js@^3.15.2:
+  version "3.16.0"
+  resolved "https://registry.nlark.com/core-js/download/core-js-3.16.0.tgz?cache=0&sync_timestamp=1627616506342&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcore-js%2Fdownload%2Fcore-js-3.16.0.tgz#1d46fb33720bc1fa7f90d20431f36a5540858986"
+  integrity sha1-HUb7M3ILwfp/kNIEMfNqVUCFiYY=
 
 cosmiconfig@^6.0.0:
   version "6.0.0"
@@ -1222,10 +1222,10 @@ dom-align@^1.7.0:
   resolved "https://registry.nlark.com/dom-align/download/dom-align-1.12.2.tgz?cache=0&sync_timestamp=1621853271041&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fdom-align%2Fdownload%2Fdom-align-1.12.2.tgz#0f8164ebd0c9c21b0c790310493cd855892acd4b"
   integrity sha1-D4Fk69DJwhsMeQMQSTzYVYkqzUs=
 
-dompurify@^2.2.8:
-  version "2.2.8"
-  resolved "https://registry.nlark.com/dompurify/download/dompurify-2.2.8.tgz?cache=0&sync_timestamp=1619597856413&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fdompurify%2Fdownload%2Fdompurify-2.2.8.tgz#ce88e395f6d00b6dc53f80d6b2a6fdf5446873c6"
-  integrity sha1-zojjlfbQC23FP4DWsqb99URoc8Y=
+dompurify@^2.2.9:
+  version "2.3.0"
+  resolved "https://registry.nlark.com/dompurify/download/dompurify-2.3.0.tgz#07bb39515e491588e5756b1d3e8375b5964814e2"
+  integrity sha1-B7s5UV5JFYjldWsdPoN1tZZIFOI=
 
 downloadjs@^1.4.7:
   version "1.4.7"
@@ -1426,30 +1426,30 @@ foreach@^2.0.5:
   resolved "https://registry.npm.taobao.org/foreach/download/foreach-2.0.5.tgz#0bee005018aeb260d0a3af3ae658dd0136ec1b99"
   integrity sha1-C+4AUBiusmDQo6865ljdATbsG5k=
 
-formiojs@^4.12.4-rc.2:
-  version "4.13.1"
-  resolved "https://registry.nlark.com/formiojs/download/formiojs-4.13.1.tgz#71dc79084f0f672d143def76cf825e7af62f6839"
-  integrity sha1-cdx5CE8PZy0UPe92z4JeevYvaDk=
+formiojs@^4.13.4:
+  version "4.13.4"
+  resolved "https://registry.nlark.com/formiojs/download/formiojs-4.13.4.tgz#b8da8fb274d82facabcef2bbea1542baef74e12b"
+  integrity sha1-uNqPsnTYL6yrzvK76hVCuu904Ss=
   dependencies:
-    "@formio/bootstrap3" "^2.11.0"
+    "@formio/bootstrap3" "^2.11.3"
     "@formio/choices.js" "^9.0.1"
-    "@formio/semantic" "^2.5.1"
+    "@formio/semantic" "^2.5.3"
     "@formio/vanilla-text-mask" "^5.1.1"
     autocompleter "^6.1.0"
     browser-cookies "^1.2.0"
     compare-versions "^3.6.0"
-    core-js "^3.11.1"
+    core-js "^3.15.2"
     custom-event-polyfill "^1.0.7"
     dialog-polyfill "^0.5.6"
-    dompurify "^2.2.8"
+    dompurify "^2.2.9"
     downloadjs "^1.4.7"
     dragula "^3.7.3"
     eventemitter3 "^4.0.7"
     fast-deep-equal "^3.1.3"
     fast-json-patch "^2.2.1"
     fetch-ponyfill "^7.1.0"
-    i18next "^20.2.2"
-    idb "^6.0.0"
+    i18next "^20.3.2"
+    idb "^6.1.2"
     ismobilejs "^1.1.1"
     json-logic-js "^2.0.0"
     jstimezonedetect "^1.0.7"
@@ -1566,17 +1566,17 @@ hoist-non-react-statics@^3.1.0, hoist-non-react-statics@^3.3.2:
   dependencies:
     react-is "^16.7.0"
 
-i18next@^20.2.2:
-  version "20.3.0"
-  resolved "https://registry.nlark.com/i18next/download/i18next-20.3.0.tgz#9558b431241fb1dbbd445174391ede65d0a68ed9"
-  integrity sha1-lVi0MSQfsdu9RFF0OR7eZdCmjtk=
+i18next@^20.3.2:
+  version "20.3.5"
+  resolved "https://registry.nlark.com/i18next/download/i18next-20.3.5.tgz#14308b79a3f1cafb24fdcd8e182d3673baf1e979"
+  integrity sha1-FDCLeaPxyvsk/c2OGC02c7rx6Xk=
   dependencies:
     "@babel/runtime" "^7.12.0"
 
-idb@^6.0.0:
-  version "6.1.1"
-  resolved "https://registry.nlark.com/idb/download/idb-6.1.1.tgz#1766e8ce6ff04eae5d78508a9733f51c57d016ef"
-  integrity sha1-F2bozm/wTq5deFCKlzP1HFfQFu8=
+idb@^6.1.2:
+  version "6.1.2"
+  resolved "https://registry.nlark.com/idb/download/idb-6.1.2.tgz#82ef5c951b8e1f47875d36ccafa4bedafc62f2f1"
+  integrity sha1-gu9clRuOH0eHXTbMr6S+2vxi8vE=
 
 immer@^8.0.1:
   version "8.0.4"
