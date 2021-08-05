@@ -4,10 +4,9 @@ import { IndicatorForm } from '../../../utils/indicator'
 import css from './index.module.scss'
 import { Form } from '@formio/react'
 import { CompareForm } from './conds/compare'
-import { Period, Symbol, Symbols } from '../../../../../server/consts'
+import { Period, Periods, Symbol, Symbols } from '../../../../../server/consts'
 import { Condition, AlarmFormMap } from './conds'
 import { Button, ButtonDropdown, ButtonGroup, Grid, Input, Select, Tooltip } from '@geist-ui/react'
-import { Formio } from 'formiojs'
 
 export interface CrossAlarm {
   type: 'cross'
@@ -235,9 +234,7 @@ function AlarmBuilder({alarm, onCreate}: {
               setPeriod(Number(e))
             }}
           >
-            {Object.keys(Period)
-              .filter((k) => !/^\d/.test(k))
-              .map((k) => {
+            {Periods.map((k) => {
                 return <Select.Option key={k} value={Period[k] + ''}>{k}</Select.Option>
               })}
           </Select>

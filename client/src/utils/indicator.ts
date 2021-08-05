@@ -1,7 +1,6 @@
 import { ExtendedComponentSchema } from 'formiojs'
 // import * as talib from 'talib-binding'
 import yup from 'yup'
-import { Candle } from './candles'
 export type Indicator = {
   name: 'Close' | 'High' | 'Low' | 'Open'
 } | {
@@ -73,33 +72,6 @@ export const Indicators: IndicatorForm[] = [
         },
       },
     ],
-    // params: [
-    //   {
-    //     name: 'period',
-    //     default: 9,
-    //     schema: yup.number().min(1).max(300).integer(),
-    //   },
-    //   {
-    //     name: 'source',
-    //     default: 'close',
-    //     schema: yup.string().oneOf(['close', 'high', 'low', 'open']),
-    //   },
-    //   {
-    //     name: 'type',
-    //     default: 'SMA',
-    //     schema: yup.string().oneOf(['SMA', 'EMA']),
-    //   },
-    // ],
-    // calc: (
-    //   c,
-    //   p: { period: number; source: 'close' | 'open' | 'high' | 'low'; type: 'EMA' | 'SMA' },
-    //   i,
-    // ) =>
-    //   talib.MA(
-    //     c.map((c) => c[p.source]),
-    //     p.period,
-    //     p.type === 'SMA' ? talib.MATypes.SMA : talib.MATypes.EMA,
-    //   )[i],
   },
   {
     name: 'Constant',
