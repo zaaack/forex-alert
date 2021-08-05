@@ -1,6 +1,7 @@
 import { ChildProcess } from 'child_process'
 import { task, desc, option, fs, setGlobalOptions, execa, sleep } from 'foy'
 import { join } from 'path'
+import './tools/playback/Foyfile'
 const ncc = require('@vercel/ncc')
 setGlobalOptions({ loading: false })
 task('dev', async (ctx) => {

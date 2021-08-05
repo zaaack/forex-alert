@@ -39,7 +39,7 @@ model Alarm {
   id String @id @default(uuid())
   userId String
   name String
-  confs Json
+  data Json
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 

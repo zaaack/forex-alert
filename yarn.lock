@@ -21,10 +21,10 @@
   resolved "https://registry.nlark.com/@prisma/engines-version/download/@prisma/engines-version-2.27.0-43.cdba6ec525e0213cce26f8e4bb23cf556d1479bb.tgz#60a34634fe26be9caca42556605a132e70810e3c"
   integrity sha1-YKNGNP4mvpyspCVWYFoTLnCBDjw=
 
-"@prisma/engines@2.27.0-43.cdba6ec525e0213cce26f8e4bb23cf556d1479bb":
-  version "2.27.0-43.cdba6ec525e0213cce26f8e4bb23cf556d1479bb"
-  resolved "https://registry.nlark.com/@prisma/engines/download/@prisma/engines-2.27.0-43.cdba6ec525e0213cce26f8e4bb23cf556d1479bb.tgz#22084a81e90b66665aa3aacde79ef5b1bc3587fe"
-  integrity sha1-IghKgekLZmZao6rN5571sbw1h/4=
+"@prisma/engines@2.28.0-17.89facabd0366f63911d089156a7a70125bfbcd27":
+  version "2.28.0-17.89facabd0366f63911d089156a7a70125bfbcd27"
+  resolved "https://registry.nlark.com/@prisma/engines/download/@prisma/engines-2.28.0-17.89facabd0366f63911d089156a7a70125bfbcd27.tgz#5a563ead03405fc6ccb33fe48f8b3a8712be391e"
+  integrity sha1-WlY+rQNAX8bMsz/kj4s6hxK+OR4=
 
 "@supabase/gotrue-js@^1.16.6":
   version "1.16.7"
@@ -1356,12 +1356,12 @@ performance-now@^2.1.0:
   resolved "https://registry.npm.taobao.org/performance-now/download/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
-prisma@^2.18.0:
-  version "2.27.0"
-  resolved "https://registry.nlark.com/prisma/download/prisma-2.27.0.tgz#45fdecb9c2470c7ad602e804ffed70dfa7c46ad1"
-  integrity sha1-Rf3sucJHDHrWAugE/+1w36fEatE=
+prisma@^2.28.0:
+  version "2.28.0"
+  resolved "https://registry.nlark.com/prisma/download/prisma-2.28.0.tgz#33adb56e336d4c4569ec2f49df9b606771df15d0"
+  integrity sha1-M621bjNtTEVp7C9J35tgZ3HfFdA=
   dependencies:
-    "@prisma/engines" "2.27.0-43.cdba6ec525e0213cce26f8e4bb23cf556d1479bb"
+    "@prisma/engines" "2.28.0-17.89facabd0366f63911d089156a7a70125bfbcd27"
 
 process-nextick-args@~2.0.0:
   version "2.0.1"

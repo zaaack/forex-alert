@@ -64,3 +64,5 @@ state.json
 /db
 /build
 forex-signal-build
+
+tools/playback/database
