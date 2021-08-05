@@ -63,3 +63,21 @@ export function appendM15ToHours(candles: Candle[], m15Candle: Candle, hour: Sup
   }
   return candles
 }
+
+
+export function appendPriceToM15(candles: Candle[], price: number) {
+  const count = hour
+  if (m15Candle.time - candles[0].time === count * (15 * 60)) {
+    candles.unshift({
+      ...m15Candle,
+      done: false,
+    })
+    candles.pop()
+  } else {
+    const lastCandle = candles[0]
+    lastCandle.close = m15Candle.close
+    lastCandle.high = Math.max(m15Candle.high, lastCandle.high)
+    lastCandle.low = Math.min(m15Candle.low, lastCandle.low)
+  }
+  return candles
+}
