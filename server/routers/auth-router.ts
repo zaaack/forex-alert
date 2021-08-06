@@ -50,9 +50,21 @@ export const authRouter = createRouter()
           statusCode: 400,
         })
       }
+      console.log('data', {
+        mail: input.mail,
+        pushMail: input.mail,
+        nickname: input.nickname || `${input.mail.split('@')[0]}`,
+        pwd: encoder.encode(input.pwd),
+        token: nanoid(),
+        tokenExpiresAt: dayjs()
+          .add( 7, 'd')
+          .toDate(),
+        plan: 'FREE',
+      })
       let u = await ctx.user.create({
         data: {
           mail: input.mail,
+          pushMail: input.mail,
           nickname: input.nickname || `${input.mail.split('@')[0]}`,
           pwd: encoder.encode(input.pwd),
           token: nanoid(),

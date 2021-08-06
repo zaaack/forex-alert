@@ -1,31 +1,40 @@
 import { CondForm, BaseCond } from "./types";
+import { CandlePatternName, CandlePatternNames } from "../../../../utils/candles";
 
 export interface CandlePattern extends BaseCond {
   name: 'CandlePattern'
-  level: number
+  pattern: CandlePatternName
+  similarity: number
 }
 
 export const CandlePatternForm: CondForm = {
   name: 'CandlePattern',
   fields: [
     {
-      label: 'level',
-      key: 'level',
-      type: 'number',
-      labelPosition: 'left',
-      labelMargin: 1,
-      input: true,
-      defaultValue: 1,
-      validate: {
-        min: 0,
+      label: 'Pattern',
+      key: `pattern`,
+      hideLabel: true,
+      data: {
+        values: CandlePatternNames,
       },
+      type: 'select',
+      input: true,
+      defaultValue: 'CDLHAMMER',
+    },
+    {
+      label: 'Similarity',
+      key: `similarity`,
+      type: 'number',
+      input: true,
+      defaultValue: 70,
     },
   ],
   empty(): CandlePattern {
     return {
       name: 'CandlePattern',
-      level: 1,
       join: 'and',
+      pattern: 'CDLHAMMER',
+      similarity: 70,
     }
   }
 }

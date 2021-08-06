@@ -1,4 +1,5 @@
-import {PeriodsHours} from '../consts';
+import { Dayjs } from 'dayjs';
+import {HourMinutes, Period, PeriodsHours} from '../consts';
 
 export interface Candle {
   time: number //unix time
@@ -47,37 +48,46 @@ export function mergeM15ToHours(candles: Candle[], hour: SupportHour) {
   return newCandles.reverse()
 }
 
-export function appendM15ToHours(candles: Candle[], m15Candle: Candle, hour: SupportHour) {
-  const count = hour
-  if (m15Candle.time - candles[0].time === count * (15 * 60)) {
+export function appendM15ToHours(candles: Candle[], m15Candle: Candle, period: Period) {
+  if (m15Candle.time - candles[0].time >= period * 60) {
+    candles[0].done = true
     candles.unshift({
       ...m15Candle,
       done: false,
     })
     candles.pop()
+    return true
   } else {
-    const lastCandle = candles[0]
-    lastCandle.close = m15Candle.close
-    lastCandle.high = Math.max(m15Candle.high, lastCandle.high)
-    lastCandle.low = Math.min(m15Candle.low, lastCandle.low)
+    const first = candles[0]
+    first.close = m15Candle.close
+    first.high = Math.max(m15Candle.high, first.high)
+    first.low = Math.min(m15Candle.low, first.low)
+    return false
   }
-  return candles
 }
 
 
-export function appendPriceToM15(candles: Candle[], price: number) {
-  const count = hour
-  if (m15Candle.time - candles[0].time === count * (15 * 60)) {
-    candles.unshift({
-      ...m15Candle,
-      done: false,
-    })
-    candles.pop()
+export function appendPriceToM15(candles: Candle[], price: number, time: Dayjs) {
+  const first = candles[0]
+  const nextBarTime = (first.time + 15 * 60)* 1000
+  if (time.isBefore(nextBarTime)) {
+    first.close = price
+    first.high = Math.max(first.high, price)
+    first.low = Math.min(first.low, price)
+    return false
   } else {
-    const lastCandle = candles[0]
-    lastCandle.close = m15Candle.close
-    lastCandle.high = Math.max(m15Candle.high, lastCandle.high)
-    lastCandle.low = Math.min(m15Candle.low, lastCandle.low)
+    first.done = true
+    const newCandle: Candle = {
+      time: nextBarTime,
+      open: price,
+      high: price,
+      low: price,
+      close: price,
+      volume: 0,
+      done: false,
+    }
+    candles.unshift(newCandle)
+    candles.pop()
+    return true
   }
-  return candles
 }

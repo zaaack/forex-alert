@@ -2,11 +2,11 @@ import { Request, Response } from 'express'
 import crypto from 'crypto'
 import http from 'http'
 import { Encoder } from './encoder'
-import { uniqueId } from 'smoldash'
 import dayjs, { Dayjs } from 'dayjs'
 var svgCaptcha = require('svg-captcha')
 import QuickLRU from 'quick-lru'
 import { logger } from 'foy'
+import { nanoid } from 'nanoid'
 
 class CaptchaService {
   map = new QuickLRU<string, string>({ maxSize: 1000 }) // 同时最多1w人注册
@@ -20,7 +20,7 @@ class CaptchaService {
   handler = (req: Request, res: Response) => {
     var captcha = svgCaptcha.create()
     // res.cookie('cp', this.encoder.encode(captcha.text))
-    const id = uniqueId()
+    const id = nanoid()
     res.cookie('cp', id)
     this.map.set(id + "", captcha.text)
     console.log('handle', this.map)

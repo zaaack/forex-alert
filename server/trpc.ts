@@ -4,25 +4,41 @@ import { PrismaClient, User } from '@prisma/client'
 import { CreateContextFnOptions } from '@trpc/server'
 import {Request, Response} from 'express'
 import dayjs from 'dayjs';
+import * as trpcExpress from '@trpc/server/adapters/express';
 import { logger } from 'foy';
-export const prisma = new PrismaClient()
-
-
-export const createContext = async ({req, res}: CreateContextFnOptions<Request, Response>) => {
+export const prisma = new PrismaClient({
+  log: [{ emit: 'event', level: 'query' }]
+})
+prisma.$on('query', e => {
+  logger.log("Query: ", e.query);
+  logger.log("Params: ", e.params);
+})
+export const createContext = async ({req, res}: trpcExpress.CreateExpressContextOptions) => {
+  let _me: User | null = null
   return {
     req,
     res,
     prisma,
     user: prisma.user,
+    alarm: prisma.alarm,
+    message: prisma.message,
+    async getMeOrError() {
+      let me = await this.getMe()
+      if (!me) {
+        throw trpc.httpError.unauthorized('need login')
+      }
+      return me
+    },
     async getMe() {
-      const uid = req.cookies['uid']
+      const uid = Number(req.cookies['uid'])
       const utk = req.cookies['utk']
-      let me = await prisma.user.findFirst({where: {id:uid}})
+      let me = _me || await prisma.user.findFirst({where: {id: uid}})
       if (me?.token !== utk || dayjs().isAfter(me?.tokenExpiresAt)) {
         me = null
         res.clearCookie('uid')
         res.clearCookie('utk')
       }
+      _me = me
       return me
     },
     setToken(u: User, remember?: boolean) {

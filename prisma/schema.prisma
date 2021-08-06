@@ -15,10 +15,12 @@ enum Plan {
   PREMIUM
   PRO
 }
+
 model User {
-  id String @id @default(uuid())
+  id Int @id @default(autoincrement())
   mail String
   pwd String
+  pushMail String
   nickname String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
@@ -36,20 +38,28 @@ model User {
 }
 
 model Alarm {
-  id String @id @default(uuid())
-  userId String
+  id Int @id @default(autoincrement())
+  userId Int
   name String
-  data Json
+  conds Json
+  periods Int[]
+  symbols String[]
   enable Boolean @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+  messages Message[]
 
   @@index([userId])
+  @@index([periods])
 }
 
-model Messages {
-  id String @id @default(uuid())
-  alarmId String
+model Message {
+  id Int @id @default(autoincrement())
+  userId Int
+  alarmId Int
+  alarm Alarm @relation(fields: [alarmId], references: [id])
+
   symbol String
-  message String
+  period Int
+  createdAt DateTime @default(now())
 }

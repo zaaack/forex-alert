@@ -1,33 +1,33 @@
-import { ExtendedComponentSchema } from 'formiojs'
-// import * as talib from 'talib-binding'
-import yup from 'yup'
-export type Indicator = {
+import type { ExtendedComponentSchema } from 'formiojs'
+import * as talib from 'talib-binding'
+import { Candle } from '../../../server/utils/candles'
+talib.CDLABANDONEDBABY
+export type KIndicator = {
   name: 'Close' | 'High' | 'Low' | 'Open'
-} | {
-  name: 'MA',
+}
+export type MAIndicator = {
+  name: 'MA'
   period: number
-  type: 'SMA' | 'EMA'
+  type:number
   source: 'close' | 'high' | 'low' | 'open'
 }
+export type ConstantIndicator = {
+  name: 'constant'
+  value: number
+}
+export type Indicator = KIndicator | MAIndicator | ConstantIndicator
+
 export interface IndicatorForm {
   name: string
   fields?: ExtendedComponentSchema[]
-  // calc(candles: Candle[], params: object, index: number): number
+  calc(candles: Candle[], params: any, index: number): number
 }
 
 export const Indicators: IndicatorForm[] = [
-  { name: 'Open',
-  // calc: (c, p, i) => c[i].open
- },
-  { name: 'Close',
-  // calc: (c, p, i) => c[i].close
-},
-  { name: 'High',
-  // calc: (c, p, i) => c[i].high
-},
-  { name: 'Low',
-  // calc: (c, p, i) => c[i].low
-},
+  { name: 'Open', calc: (c, p, i) => c[i].open },
+  { name: 'Close', calc: (c, p, i) => c[i].close },
+  { name: 'High', calc: (c, p, i) => c[i].high },
+  { name: 'Low', calc: (c, p, i) => c[i].low },
   {
     name: 'MA',
     fields: [
@@ -68,10 +68,19 @@ export const Indicators: IndicatorForm[] = [
         dataSrc: 'values',
         defaultValue: 'EMA',
         data: {
-          values: ['SMA', 'EMA'],
+          values: [
+            { label: 'SMA', value: talib.MATypes.SMA },
+            { label: 'EMA', value: talib.MATypes.EMA },
+          ],
         },
       },
     ],
+    calc: (c, p: MAIndicator, i) =>
+      talib.MA(
+        c.map((c) => c[p.source]),
+        p.period,
+        p.type,
+      )[i],
   },
   {
     name: 'Constant',
@@ -85,6 +94,12 @@ export const Indicators: IndicatorForm[] = [
         input: true,
         defaultValue: 1,
       },
-    ]
+    ],
+    calc: (c, p: ConstantIndicator, i) => p.value,
   },
 ]
+
+export const IndicatorCalcs: { [key: string]: IndicatorForm['calc'] } = Indicators.reduce((acc: any, indicator) => {
+  acc[indicator.name] = indicator.calc
+  return acc
+}, {} as any)

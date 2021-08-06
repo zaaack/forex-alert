@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import reactRefresh from '@vitejs/plugin-react-refresh'
 import externalGlobals from 'rollup-plugin-external-globals'
+import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -25,6 +26,7 @@ export default defineConfig({
       //  https://github.com/vitejs/vite/issues/3399
       i18next: 'i18next/dist/cjs/i18next.js',
       moment: 'moment/min/moment.min.js',
+      'talib-binding': path.resolve(__dirname, './src/talib-client.js'),
     },
   },
   server: {

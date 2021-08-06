@@ -1,5 +1,5 @@
-import axios, { AxiosRequestConfig } from 'axios'
-import dayjs from 'dayjs'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import dayjs, { Dayjs } from 'dayjs'
 import { logger } from 'foy'
 import { inspect } from 'util'
 import { Period, Symbol,  } from '../../consts'
@@ -27,12 +27,7 @@ class Api {
         throw new Error('请求异常')
       })
       .then((res) => {
-        logger.debug(
-          `time:${Date.now() - start}ms`,
-          typeof res.data === 'string' && JSON.stringify(res.data).length < 500
-            ? res.data
-            : inspect(res.data).slice(0, 500),
-        )
+        logger.info('fetch success:', path)
         return res
       })
   }
@@ -59,7 +54,7 @@ class Api {
       })
   }
 
-  async stream(symbol: Symbol, callback: (price: number, time: number) => void) {
+  async stream(symbol: Symbol, callback: (price: number, time: Dayjs) => void) {
     let res = await axios.get(
       `https://stream-fxpractice.oanda.com/v3/accounts/${conf.accountId}/pricing/stream?instruments=${symbolToOanda(symbol)}`,
       {
@@ -75,7 +70,7 @@ class Api {
     })
     const handleError = (err: Error) => {
       logger.error('price stream 遭遇异常，5s后重试', err)
-      setTimeout((symbol, callback, res) => {
+      setTimeout((symbol: Symbol, callback: (price: number, time: Dayjs) =>void, res: AxiosResponse<any>) => {
         this.stream(symbol, callback)
         res.data.close()
       }, 5000, symbol, callback, res)
@@ -101,7 +96,7 @@ class Api {
           logger.log(d)
           if (d.type === 'PRICE') {
             d.bids.forEach((b) => {
-              callback(Number(b.price), dayjs(d.time).unix())
+              callback(Number(b.price), dayjs(d.time))
             })
           }
         })
@@ -109,12 +104,12 @@ class Api {
   }
 }
 
-export const api = new Api()
+export const oanda = new Api()
 
-// api.instruments('EURUSD', {count: 1, period: Period.M15}).then(r => {
-//   console.log(r)
-// })
+oanda.instruments('EURUSD', {count: 1, period: Period.M15}).then(r => {
+  console.log(r)
+})
 
-api.stream('EURUSD', (price, time) => {
+oanda.stream('EURUSD', (price, time) => {
   logger.log(price, time)
 })

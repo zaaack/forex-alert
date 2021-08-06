@@ -14,9 +14,7 @@ function Register(props) {
     onError: (err) => {
       console.error(err)
       setToast({ text: err.json.error.message, type: 'error' })
-      if (err.json.error.code === 'INVALID_CAPTCHA') {
-        refresh((u) => u + 1)
-      }
+      refresh((u) => u + 1)
     },
     onSuccess: () => {
       setToast({ text: 'Register successfully!', type: 'success' })

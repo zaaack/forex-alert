@@ -1,13 +1,14 @@
 export const Symbols=[
-  "GBPUSD", "EURUSD", "USDJPY", "AUDUSD", "USDCAD", "NZDUSD",
-  "USDCHF", "EURGBP", "GBPJPY", "EURJPY", "AUDJPY", "CADJPY",
-  "NZDJPY", "AUDCAD", "XAUUSD", "USOilCash", "BTCUSD", "US30",
-  // "ChinaA50", "HK50", "JP225", "DE30"
+  "EURUSD", "USDJPY", "GBPUSD", "AUDUSD", "USDCAD", "USDCHF", "NZDUSD", "GBPJPY",
+  "EURJPY", "EURGBP",  "XAUUSD", "USOilCash",
+  "BTCUSD", "US30",
 ] as const
 
 export type Symbol = typeof Symbols[number]
 export const PeriodsHours = [0.25, 0.5, 1, 2, 3, 4, 6, 8, 12, 24] as const
 export const HourMinutes = 60
+export const Periods = PeriodsHours.map(p=> p * HourMinutes)
+
 export enum Period {
   M15 = 0.25 * HourMinutes,
   M30 = 0.5 * HourMinutes,
@@ -21,4 +22,4 @@ export enum Period {
   D = 24 * HourMinutes,
 }
 
-export const Periods = Object.keys(Period).filter(p => !/^\d/.test(p))
+export const PeriodNames = Object.keys(Period).filter(p => !/^\d/.test(p))
