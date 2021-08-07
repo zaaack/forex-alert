@@ -75,6 +75,7 @@ function Home(props) {
               return (
                 <AlarmBuilder
                   alarm={clientAlarm}
+                  key={clientAlarm ? clientAlarm.id : 'new'}
                   onCreate={(alarmData) => {
                     let newAlarm = clientAlarm || (alarmData as any)
                     client
